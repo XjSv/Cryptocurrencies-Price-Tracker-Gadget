@@ -1,2 +1,2 @@
-cd ..
-call git archive -o Cryptocurrencies-Price-Tracker-Gadget.gadget master
+@echo off
+powershell.exe -executionpolicy bypass -file build-gadget.ps1

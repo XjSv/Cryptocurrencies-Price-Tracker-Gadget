@@ -1,0 +1,2 @@
+Compress-Archive -Path '..\*' -CompressionLevel NoCompression -DestinationPath '..\CryptocurrenciesPriceTrackerGadget.zip'
+Rename-Item '..\CryptocurrenciesPriceTrackerGadget.zip' 'CryptocurrenciesPriceTrackerGadget.gadget'
