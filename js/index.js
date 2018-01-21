@@ -121,5 +121,5 @@ function formatTimestamp(timestamp) {
 }
 
 function formatCurrency(number) {
-    return number.toLocaleString(undefined, { style: 'currency', currency: configCurr });
+    return (number * 1).toLocaleString('en-US', { style: 'currency', currency: configCurr });
 }
