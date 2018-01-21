@@ -14,8 +14,8 @@ function init() {
         generateHoldingsInputs($(this).val());
     });
 
-    $('#currency-holdings').on('change', '.inputHoldList', function() {
-        System.Gadget.Settings.writeString('inputHoldList-' + $(this).attr('id'), $(this).val());
+    $('#currency-holdings').on('keyup', '.inputHoldList', function() {
+        this.value = this.value.replace(/[^0-9\.]/g, '');
     });
 
     System.Gadget.onSettingsClosing = saveSettings;
@@ -26,6 +26,10 @@ function saveSettings(event) {
         System.Gadget.Settings.writeString('configCurr',     $('#inputCurr').val());
         System.Gadget.Settings.writeString('configFreq',     $('#inputFreq').val());
         System.Gadget.Settings.writeString('configCurrList', $('#inputCurrList').val());
+
+        $('.inputHoldList').each(function() {
+            System.Gadget.Settings.writeString('inputHoldList-' + $(this).attr('id'), ($(this).val() * 1));
+        });
 
         event.cancel = false;
     }

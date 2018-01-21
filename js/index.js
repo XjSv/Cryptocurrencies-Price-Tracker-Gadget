@@ -43,13 +43,15 @@ function getPrice(code, index) {
     //
     $.getJSON('https://api.coinmarketcap.com/v1/ticker/' + currencyMapping[code] + '/?convert=' + configCurr, function(data) {
         var changeDirection = (data[0].percent_change_1h < 0) ? 'decrease' : 'increase';
-        var configHoldingValue = (System.Gadget.Settings.readString('inputHoldList-' + code) || '0');
-        var price = data[0]['price_' + configCurr.toLowerCase()] * 1; // Convert to number
+        var configHoldingValue = ((System.Gadget.Settings.readString('inputHoldList-' + code) || 0) * 1);
+        var price = (data[0]['price_' + configCurr.toLowerCase()] * 1);
+        var priceFormatted = formatCurrency(data[0]['price_' + configCurr.toLowerCase()]);
+        var holdingsValueFormatted = formatCurrency(price * configHoldingValue);
 
         document.getElementById(code).className = 'stock ' + changeDirection;
         document.getElementById(code + '-pctChange').innerHTML = data[0].percent_change_1h + '%';
-        document.getElementById(code + '-myPrice').innerHTML = price.toFixed(2);
-        document.getElementById(code + '-port').innerHTML    = (price * configHoldingValue).toFixed(2);
+        document.getElementById(code + '-myPrice').innerHTML = priceFormatted;
+        document.getElementById(code + '-port').innerHTML    = holdingsValueFormatted;
         document.getElementById('last-updated').innerHTML = formatTimestamp(data[0].last_updated);
 
     });
@@ -116,4 +118,8 @@ function formatTimestamp(timestamp) {
     date.setDate(date.getDate() - 1);
     return date.getFullYear() + '-' + ('0' + (date.getMonth()+1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2) + ' '
     + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
+}
+
+function formatCurrency(number) {
+    return number.toLocaleString(undefined, { style: 'currency', currency: configCurr });
 }
