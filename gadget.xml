@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<gadget>
+  <name>Cryptocurrencies Price Tracker</name>
+  <version>1.0.0</version>
+  <author name="Armand Tresova">
+    <info url="https://www.armandtresova.com/" />
+  </author>
+  <copyright>© 2018 ArmandTresova.com</copyright>
+  <description>
+    Cryptocurrencies Price Tracker displaying snapshot prices from CoinMarketCap, as well as a personal portfolio value.
+    <br /><br />
+    A free utility provided by Armand Tresova.
+  </description>
+  <icons>
+    <icon height="64" width="64" src="img/logo.png"/>
+  </icons>
+  <hosts>
+    <host name="sidebar">
+      <base type="HTML" apiVersion="1.0.0" src="index.html" />
+      <permissions>Full</permissions>
+      <platform minPlatformVersion="1.0" />
+    </host>
+  </hosts>
+</gadget>
