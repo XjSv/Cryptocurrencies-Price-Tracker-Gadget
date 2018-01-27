@@ -24,6 +24,13 @@ body {
   height: 10px;
   display: inline-block;
 }
+#out-of-date {
+  width: 120px;
+  text-align: left;
+}
+#out-of-date a {
+  color: #098c03;
+}
 #last-updated {
   margin-right: 5px;
 }
