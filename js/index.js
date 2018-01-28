@@ -38,26 +38,30 @@ function getList() {
     });
 }
 
-function getPrice(code, index) {
+function getPrice(code) {
     // Docs: https://coinmarketcap.com/api/
     //
-    $.getJSON('https://api.coinmarketcap.com/v1/ticker/' + currencyMapping[code] + '/?convert=' + configCurr, function(data) {
-        var changeDirection = (data[0].percent_change_1h < 0) ? 'decrease' : 'increase';
-        var configHoldingValue = ((System.Gadget.Settings.readString('inputHoldList-' + code) || 0) * 1);
-        var price = (data[0]['price_' + configCurr.toLowerCase()] * 1);
-        var priceFormatted = formatCurrency(data[0]['price_' + configCurr.toLowerCase()]);
-        var holdingsValueFormatted = formatCurrency(price * configHoldingValue);
+    if (code) {
+        $.getJSON('https://api.coinmarketcap.com/v1/ticker/' + currencyMapping[code] + '/?convert=' + configCurr, function(data) {
+            var changeDirection = (data[0].percent_change_1h < 0) ? 'decrease' : 'increase';
+            var configHoldingValue = ((System.Gadget.Settings.readString('inputHoldList-' + code) || 0) * 1);
+            var price = (data[0]['price_' + configCurr.toLowerCase()] * 1);
+            var priceFormatted = formatCurrency(data[0]['price_' + configCurr.toLowerCase()]);
+            var holdingsValueFormatted = formatCurrency(price * configHoldingValue);
 
-        document.getElementById(code).className = 'stock ' + changeDirection;
-        document.getElementById(code + '-pctChange').innerHTML = data[0].percent_change_1h + '%';
-        document.getElementById(code + '-myPrice').innerHTML = priceFormatted;
-        document.getElementById(code + '-port').innerHTML    = holdingsValueFormatted;
-        document.getElementById('last-updated').innerHTML = formatTimestamp(data[0].last_updated);
+            document.getElementById(code).className = 'stock ' + changeDirection;
+            document.getElementById(code + '-pctChange').innerHTML = data[0].percent_change_1h + '%';
+            document.getElementById(code + '-myPrice').innerHTML = priceFormatted;
+            document.getElementById(code + '-port').innerHTML = holdingsValueFormatted;
+            document.getElementById('last-updated').innerHTML = formatTimestamp(data[0].last_updated);
+            document.getElementById('last-refreshed').innerHTML = getTimeNow();
+        });
 
-    });
-
-    // Callback to repeatedly get and update the price
-    setTimeout('getPrice(' + code + ')', configFreq * 60000);
+        // Callback to repeatedly get and update the price
+        setTimeout(function() {
+            getPrice(code);
+        }, configFreq * 60000);
+    }
 }
 
 function altRows() {
@@ -115,9 +119,12 @@ function createTableBody() {
 
 function formatTimestamp(timestamp) {
     var date = new Date(timestamp * 1000);
-    date.setDate(date.getDate() - 1);
-    return date.getFullYear() + '-' + ('0' + (date.getMonth()+1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2) + ' '
-    + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
+    return ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+}
+
+function getTimeNow() {
+    var date = new Date();
+    return ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
 }
 
 function formatCurrency(number) {

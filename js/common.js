@@ -33,10 +33,10 @@ function isUpToDate(local, remote) {
     if (VPAT.test(local) && VPAT.test(remote)) {
         var lparts = local.split('.');
         while(lparts.length < 3)
-            lparts.push("0");
+            lparts.push('0');
         var rparts = remote.split('.');
         while (rparts.length < 3)
-            rparts.push("0");
+            rparts.push('0');
         for (var i = 0; i < 3; i++) {
             var l = parseInt(lparts[i], 10);
             var r = parseInt(rparts[i], 10);

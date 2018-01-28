@@ -16,7 +16,7 @@ body {
   border-radius: 5px;
   background-color: #1e1e1e;
 }
-#last-updated-container {
+#meta-container {
   color: #cbcbcb;
   float: right;
   font-size: 0.6em;
@@ -25,12 +25,13 @@ body {
   display: inline-block;
 }
 #out-of-date {
-  width: 120px;
+  width: 100px;
   text-align: left;
 }
 #out-of-date a {
   color: #098c03;
 }
+#last-refreshed,
 #last-updated {
   margin-right: 5px;
 }
