@@ -1,8 +1,8 @@
 currencies = {};
 
 function init() {
-    var configCurr     = (System.Gadget.Settings.readString('configCurr') || 'USD');
-    var configFreq     = (System.Gadget.Settings.readString('configFreq') || 20);
+    var configCurr = (System.Gadget.Settings.readString('configCurr') || 'USD');
+    var configFreq = (System.Gadget.Settings.readString('configFreq') || 20);
     var configCurrList = (System.Gadget.Settings.readString('configCurrList') || 'BTC,BCH,LTC,ETH');
 
     $('#inputCurr').val(configCurr);
@@ -23,8 +23,8 @@ function init() {
 
 function saveSettings(event) {
     if (event.closeAction == event.Action.commit) {
-        System.Gadget.Settings.writeString('configCurr',     $('#inputCurr').val());
-        System.Gadget.Settings.writeString('configFreq',     $('#inputFreq').val());
+        System.Gadget.Settings.writeString('configCurr', $('#inputCurr').val());
+        System.Gadget.Settings.writeString('configFreq', $('#inputFreq').val());
         System.Gadget.Settings.writeString('configCurrList', $('#inputCurrList').val());
 
         $('.inputHoldList').each(function() {

@@ -67,7 +67,8 @@ thead tr {
   color: #077107;
 }
 
-.increase .change:before {
+.increase .change :before,
+.increase .change .before {
   content: "";
   display: inline-block;
   float: right;
@@ -78,7 +79,8 @@ thead tr {
   top: 0.2em;
 }
 
-.decrease .change:before {
+.decrease .change :before,
+.decrease .change .before {
   content: "";
   display: inline-block;
   float: right;

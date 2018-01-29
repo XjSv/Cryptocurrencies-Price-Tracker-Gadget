@@ -1,19 +1,53 @@
-currencyMapping = {};
-offset = 30;
+cryptoCurrencyMapping = {};
+currencySymbolMapping = {
+    'USD': '$',
+    'AUD': '$',
+    'EUR': '€',
+    'GBP': '£',
+    'BRL': 'R$',
+    'CAD': '$',
+    'CHF': '₣',
+    'CLP': '$',
+    'CNY': '¥',
+    'CZK': 'Kč',
+    'DKK': 'kr',
+    'HKD': '$',
+    'HUF': 'Ft',
+    'IDR': 'Rp',
+    'ILS': '₪',
+    'INR': '₨',
+    'JPY': '¥',
+    'KRW': '₩',
+    'MXN': '$',
+    'MYR': 'RM',
+    'NOK': 'kr',
+    'NZD': '$',
+    'PHP': '₱',
+    'PKR': '₨',
+    'PLN': 'zł',
+    'RUB': 'р.',
+    'SEK': 'kr',
+    'SGD': '$',
+    'THB': '฿',
+    'TRY': '₤',
+    'TWD': '$',
+    'ZAR': 'R'
+};
 
 function init() {
-    System.Gadget.settingsUI       = 'settings.html';
+    System.Gadget.settingsUI = 'settings.html';
     System.Gadget.onSettingsClosed = init;
 
-    configCurr     = (System.Gadget.Settings.readString('configCurr') || 'USD');
-    configFreq     = (System.Gadget.Settings.readString('configFreq') || 20);
+    configCurr = (System.Gadget.Settings.readString('configCurr') || 'USD');
+    configFreq = (System.Gadget.Settings.readString('configFreq') || 20);
     configCurrList = (System.Gadget.Settings.readString('configCurrList') || 'BTC,BCH,LTC,ETH').split(',');
 
     createTableBody();
 
     var tableHeight = $('#main-table').outerHeight();
+    var offset = 30;
 
-    document.body.style.width  = 405;
+    document.body.style.width = 405;
     document.body.style.height = (tableHeight + offset);
     document.body.style.margin = 0;
 
@@ -29,7 +63,7 @@ function getList() {
     //
     $.getJSON('https://api.coinmarketcap.com/v1/ticker', function(data) {
         $.each(data, function(key, val) {
-            currencyMapping[val.symbol] = val.id;
+            cryptoCurrencyMapping[val.symbol] = val.id;
         });
 
         for (var i = 0; i < configCurrList.length; i++) {
@@ -42,7 +76,7 @@ function getPrice(code) {
     // Docs: https://coinmarketcap.com/api/
     //
     if (code) {
-        $.getJSON('https://api.coinmarketcap.com/v1/ticker/' + currencyMapping[code] + '/?convert=' + configCurr, function(data) {
+        $.getJSON('https://api.coinmarketcap.com/v1/ticker/' + cryptoCurrencyMapping[code] + '/?convert=' + configCurr, function(data) {
             var changeDirection = (data[0].percent_change_1h < 0) ? 'decrease' : 'increase';
             var configHoldingValue = ((System.Gadget.Settings.readString('inputHoldList-' + code) || 0) * 1);
             var price = (data[0]['price_' + configCurr.toLowerCase()] * 1);
@@ -128,5 +162,5 @@ function getTimeNow() {
 }
 
 function formatCurrency(number) {
-    return (number * 1).toLocaleString(undefined, { style: 'currency', currency: configCurr });
+    return currencySymbolMapping[configCurr] + (number * 1).toLocaleString(undefined, { style: 'currency', currency: configCurr });
 }
