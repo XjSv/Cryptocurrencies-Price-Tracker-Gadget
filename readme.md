@@ -4,7 +4,7 @@ Cryptocurrencies Price Tracker is a Windows Sidebar Gadget that displays snapsho
 
 ## Getting Started
 
-These instructions will let you build the gadget yourself. Although I recommend you download the pre-built .gadget file from the release if you simply just want to install and run it. For anybody else that wants to contribute or modify it for their own use, below are instructions for building the gadget from the source files.
+These instructions will let you build the gadget yourself. Although I recommend you download the pre-built .gadget file from the [releases page](https://github.com/XjSv/Cryptocurrencies-Price-Tracker-Gadget/releases) if you simply just want to install and run it. For anybody else that wants to contribute or modify it for their own use, below are instructions for building the gadget from the source files.
 
 ### Prerequisites (for building)
 
@@ -21,7 +21,7 @@ A debug function exists in the gadget that can be used in combination with [Debu
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## Acknowledgments
 
