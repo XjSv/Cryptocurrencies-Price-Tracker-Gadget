@@ -1,9 +1,17 @@
 currencies = {};
 
 function init() {
-    var configCurr = (System.Gadget.Settings.readString('configCurr') || 'USD');
-    var configFreq = (System.Gadget.Settings.readString('configFreq') || 20);
-    var configCurrList = (System.Gadget.Settings.readString('configCurrList') || 'BTC,BCH,LTC,ETH');
+    var configDisplayValue = readSetting('configDisplayValue', 'true');
+    var configCurr = readSetting('configCurr', 'USD');
+    var configFreq = readSetting('configFreq', '20');
+    var configCurrList = readSetting('configCurrList', 'BTC,BCH,LTC,ETH');
+
+    if (configDisplayValue == 'true') {
+        $('#inputDisplayValue').attr('checked', true);
+    } else {
+        $('#inputDisplayValue').removeAttr('checked');
+        $('#current-holdings').hide();
+    }
 
     $('#inputCurr').val(configCurr);
     $('#inputFreq').val(configFreq);
@@ -12,6 +20,14 @@ function init() {
 
     $('#inputCurrList').change(function() {
         generateHoldingsInputs($(this).val());
+    });
+
+    $('#inputDisplayValue').change(function() {
+        if ($(this).is(':checked')) {
+            $('#current-holdings').show();
+        } else {
+            $('#current-holdings').hide();
+        }
     });
 
     $('#currency-holdings').on('keyup', '.inputHoldList', function() {
@@ -23,12 +39,19 @@ function init() {
 
 function saveSettings(event) {
     if (event.closeAction == event.Action.commit) {
-        System.Gadget.Settings.writeString('configCurr', $('#inputCurr').val());
-        System.Gadget.Settings.writeString('configFreq', $('#inputFreq').val());
-        System.Gadget.Settings.writeString('configCurrList', $('#inputCurrList').val());
+
+        if ($('#inputDisplayValue').is(":checked")) {
+            saveSetting('configDisplayValue', 'true');
+        } else {
+            saveSetting('configDisplayValue', 'false');
+        }
+
+        saveSetting('configCurr', $('#inputCurr').val());
+        saveSetting('configFreq', $('#inputFreq').val());
+        saveSetting('configCurrList', $('#inputCurrList').val());
 
         $('.inputHoldList').each(function() {
-            System.Gadget.Settings.writeString('inputHoldList-' + $(this).attr('id'), ($(this).val() * 1));
+            saveSetting('configHoldList-' + $(this).attr('id'), ($(this).val() * 1));
         });
 
         event.cancel = false;
@@ -38,10 +61,9 @@ function saveSettings(event) {
 function generateHoldingsInputs(selectedOptions) {
     var holdingsInputs = '';
     $.each(selectedOptions, function(key, val) {
-        var elementValue = (System.Gadget.Settings.readString('inputHoldList-' + val) || '0');
+        var elementValue = readSetting('configHoldList-' + val, '0');
         holdingsInputs += val + ': <input name="inputHoldList-' + val + '" id="' + val + '" class="inputHoldList" type="text" size="3" value="' + elementValue + '" align="right" /><br />';
     });
-
     $('#currency-holdings').html(holdingsInputs);
 }
 

@@ -19,10 +19,12 @@ body {
 #meta-container {
   color: #cbcbcb;
   float: right;
+  text-align: right;
   font-size: 0.6em;
   margin-right: 5px;
   height: 10px;
   display: inline-block;
+  width: 395px;
 }
 #out-of-date {
   width: 100px;
@@ -42,7 +44,7 @@ body {
 table {
   margin: 0;
   padding: 0;
-  width: 25em;
+  width: 400px;
   border-collapse: collapse;
 }
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gadget>
+  <name>Cryptocurrencies Price Tracker</name>
+  <namespace>microsoft.windows</namespace>
+  <version>1.2.0</version>
+  <author name="Armand Tresova">
+    <info url="https://www.armandtresova.com/" text="www.armandtresova.com"/>
+    <logo src="logo.png" />
+  </author>
+  <copyright>© 2018 ArmandTresova.com</copyright>
+  <description>
+    Cryptocurrencies Price Tracker is a Windows Sidebar Gadget that displays snapshot prices from CoinMarketCap using their API, as well as a personal portfolio value.
+    <br /><br />
+    A free utility provided by Armand Tresova.
+  </description>
+  <icons>
+    <icon height="64" width="64" src="icon.png"/>
+  </icons>
+  <hosts>
+    <host name="sidebar">
+      <base type="HTML" apiVersion="1.0.0" src="index.html" />
+      <autoscaleDPI>true</autoscaleDPI>
+      <permissions>Full</permissions>
+      <platform minPlatformVersion="1.0" />
+      <defaultImage src="drag.png" />
+    </host>
+  </hosts>
+</gadget>

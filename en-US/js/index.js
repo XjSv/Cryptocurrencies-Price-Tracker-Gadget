@@ -1,5 +1,8 @@
-cryptoCurrencyMapping = {};
-currencySymbolMapping = {
+var configCurr;
+var configFreq;
+var configCurrList;
+var cryptoCurrencyMapping = {};
+var currencySymbolMapping = {
     'USD': '$',
     'AUD': '$',
     'EUR': '€',
@@ -38,18 +41,40 @@ function init() {
     System.Gadget.settingsUI = 'settings.html';
     System.Gadget.onSettingsClosed = init;
 
-    configCurr = (System.Gadget.Settings.readString('configCurr') || 'USD');
-    configFreq = (System.Gadget.Settings.readString('configFreq') || 20);
-    configCurrList = (System.Gadget.Settings.readString('configCurrList') || 'BTC,BCH,LTC,ETH').split(',');
+    configDisplayValue = readSetting('configDisplayValue', 'true');
+    configCurr = readSetting('configCurr', 'USD');
+    configFreq = readSetting('configFreq', '20');
+    configCurrList = readSetting('configCurrList', 'BTC,BCH,LTC,ETH').split(',');
 
     createTableBody();
 
     var tableHeight = $('#main-table').outerHeight();
     var offset = 30;
 
-    document.body.style.width = 405;
     document.body.style.height = (tableHeight + offset);
     document.body.style.margin = 0;
+
+    if (configDisplayValue == 'false') {
+        document.body.style.width = 305;
+        $('#main').css('width', '300px');
+        $('#main-table').css('width', '300px');
+        $('#meta-container').css('width', '295px');
+
+        if (!isUpToDateResults) {
+            $('#out-of-date').css('text-align', 'right');
+            $('#meta-data').hide();
+        } else {
+            $('#out-of-date').css('width', '0');
+        }
+    } else {
+        document.body.style.width = 405;
+        $('#main').css('width', '400px');
+        $('#main-table').css('width', '400px');
+        $('#meta-container').css('width', '395px');
+        $('#out-of-date').css('width', '100px');
+        $('#out-of-date').css('text-align', 'left');
+        $('#meta-data').show();
+    }
 
     $('#main').css('height', (tableHeight + offset) + 'px');
     $('.currency-label').html('(' + configCurr + ')');
@@ -78,7 +103,7 @@ function getPrice(code) {
     if (code) {
         $.getJSON('https://api.coinmarketcap.com/v1/ticker/' + cryptoCurrencyMapping[code] + '/?convert=' + configCurr, function(data) {
             var changeDirection = (data[0].percent_change_1h < 0) ? 'decrease' : 'increase';
-            var configHoldingValue = ((System.Gadget.Settings.readString('inputHoldList-' + code) || 0) * 1);
+            var configHoldingValue = (readSetting('configHoldList-' + code, '0') * 1);
             var price = (data[0]['price_' + configCurr.toLowerCase()] * 1);
             var priceFormatted = formatCurrency(data[0]['price_' + configCurr.toLowerCase()]);
             var holdingsValueFormatted = formatCurrency(price * configHoldingValue);
@@ -116,8 +141,15 @@ function altRows() {
 }
 
 function createTableBody() {
+    var tableHeaders = document.getElementById('main-table').getElementsByTagName('th');
     var tableBody = document.getElementById('main-table').getElementsByTagName('tbody')[0];
     var rows = tableBody.rows;
+
+    if (configDisplayValue == 'false') {
+        tableHeaders[3].style.display = 'none';
+    } else {
+        tableHeaders[3].style.display = 'block';
+    }
 
     // Delete all rows first before inserting new ones.
     while (tableBody.rows.length > 0) {
@@ -146,6 +178,10 @@ function createTableBody() {
         var cell5 = row.insertCell(3);
         cell5.className = 'portfolio';
         cell5.id = configCurrList[i] + '-port';
+
+        if (configDisplayValue == 'false') {
+            cell5.style.display = 'none';
+        }
     }
 
     altRows();
