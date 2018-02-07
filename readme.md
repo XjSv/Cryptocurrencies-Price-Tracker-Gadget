@@ -1,5 +1,9 @@
 # Windows Sidebar Cryptocurrencies Price Tracker Gadget
 
+<p align="center">
+  <img width="404" height="175" alt="Cryptocurrencies Price Tracker" src="/docs/Demo-Display.png">
+</p>
+
 Cryptocurrencies Price Tracker is a Windows Sidebar Gadget that displays snapshot prices from CoinMarketCap using their [API](https://coinmarketcap.com/api/), as well as a personal portfolio value.
 
 ## Getting Started
