@@ -8,7 +8,7 @@ These instructions will let you build the gadget yourself. Although I recommend 
 
 ### Prerequisites (for building)
 
-The build script uses PowerShell v5 to ZIP the files into an archive. Therefor in order to use the build in tool for archiving PowerShell v5 needs to be installed.
+The build script uses PowerShell v5 to ZIP the files into an archive. Therefore in order to use the build in tool for archiving PowerShell v5 needs to be installed.
 
 ## Testing & Debugging
 
